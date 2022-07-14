@@ -1,0 +1,15 @@
+{
+    "configurations": [
+        {
+            "name": "npm run start",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run-script",
+                "start"
+            ]
+        }
+    ]
+}
