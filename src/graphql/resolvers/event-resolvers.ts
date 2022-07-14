@@ -1,21 +1,21 @@
 import { Event as DbEvent, PrismaClient, VkEvent as DbVkEvent } from '../../prisma/generated';
-import { Event as GqlEvent, EventInput } from '../generated/generated';
+import { VkEvent as GqlVkEvent, VkEventInput } from '../generated/generated';
 
 const db = new PrismaClient();
 
 export const resolvers = {
     Query: {
-        getEvents: async (): Promise<GqlEvent[]> => {
+        getVkEvents: async (): Promise<GqlVkEvent[]> => {
             const dbEvents = await db.event.findMany({
                 include: {
                     vk: true
                 }
             });
-            return dbEvents.map(toGqlEvent);
+            return dbEvents.map(toGqlVkEvent);
         },    
     },
     Mutation: {
-        createEvent: async (_: any, { input }: { input: EventInput }): Promise<GqlEvent> => {
+        createVkEvent: async (_: any, { input }: { input: VkEventInput }): Promise<GqlVkEvent> => {
             const dbEvent = await db.event.create({
                 data: {
                     name: input.name,
@@ -37,12 +37,12 @@ export const resolvers = {
                     vk: true
                 }
             });
-            return toGqlEvent(dbEvent);
+            return toGqlVkEvent(dbEvent);
         }    
     }
 };
 
-const toGqlEvent = (dbEvent: DbEvent): GqlEvent => {
+const toGqlVkEvent = (dbEvent: DbEvent): GqlVkEvent => {
     const dbVkEvent: DbVkEvent = (dbEvent as any).vk as DbVkEvent;
     return {
         id: dbEvent.id.toString(),

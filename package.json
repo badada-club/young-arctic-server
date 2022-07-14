@@ -33,6 +33,7 @@
     },
     "homepage": "https://github.com/badada-club/young-arctic-server-proto#readme",
     "dependencies": {
+        "@graphql-tools/load-files": "^6.6.0",
         "@prisma/client": "^4.0.0",
         "cors": "^2.8.5",
         "dotenv": "^16.0.1",

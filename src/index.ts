@@ -2,17 +2,16 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import cors from 'cors';
 import express, { Express, NextFunction, Request, Response } from 'express';
 import { graphqlHTTP } from 'express-graphql';
-import { readFileSync } from 'fs';
 import { GraphQLSchema } from 'graphql';
 import { resolvers } from './graphql/resolvers/resolvers';
+import { typeDefs } from './graphql/schema';
 
 export const app: Express = express();
 
 app.use(cors());
 
-const schemaString: string = readFileSync('./src/graphql/schema.graphql', { encoding: 'utf8'});
 const schema: GraphQLSchema = makeExecutableSchema({
-    typeDefs: schemaString,
+    typeDefs: typeDefs,
     resolvers: resolvers
 });
 

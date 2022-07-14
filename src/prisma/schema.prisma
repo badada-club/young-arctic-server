@@ -14,7 +14,8 @@ model Event {
     date        DateTime
     description String?
 
-    vk VkEvent?
+    vk     VkEvent?
+    raffle Raffle?
 
     @@id([id])
     @@map("events")
@@ -31,4 +32,44 @@ model VkEvent {
     @@id([id])
     @@index([creatorVkId])
     @@map("vk_event")
+}
+
+model User {
+    id   Int      @default(autoincrement())
+    name String
+    vk   VkUser[]
+
+    @@id([id])
+}
+
+model VkUser {
+    id     Int    @default(autoincrement())
+    userId Int    @unique @map("user_id")
+    vkId   String @map("vk_id")
+
+    user User @relation(fields: [userId], references: [id])
+
+    @@id([id])
+    @@index([vkId])
+    @@map("vk_user")
+}
+
+model Raffle {
+    id      Int    @default(autoincrement())
+    name    String
+    eventId Int    @unique @map("event_id")
+
+    event Event @relation(fields: [eventId], references: [id])
+
+    @@id([id])
+    @@unique([id, eventId])
+}
+
+model RaffleUser {
+    userId   Int @map("user_id")
+    raffleId Int @map("raffle_id")
+
+    key String
+
+    @@id([userId, raffleId])
 }
