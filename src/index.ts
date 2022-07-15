@@ -5,6 +5,8 @@ import { graphqlHTTP } from 'express-graphql';
 import { GraphQLSchema } from 'graphql';
 import { resolvers } from './graphql/resolvers/resolvers';
 import { typeDefs } from './graphql/schema';
+import { DbTargets } from './webhook/db-targets';
+import { WebHook } from './webhook/webhook';
 
 export const app: Express = express();
 
@@ -22,6 +24,11 @@ app.use(
         graphiql: true, //isDevelopment,
     }),
 );
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+export const webhook = new WebHook(new DbTargets());
+webhook.use(app, 'subscribe', 'unsubscribe');
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error('Exception thrown while handling the request...');
