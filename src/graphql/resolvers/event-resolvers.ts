@@ -8,7 +8,8 @@ export const resolvers = {
         getVkEvents: async (): Promise<GqlVkEvent[]> => {
             const dbEvents = await db.event.findMany({
                 include: {
-                    vk: true
+                    vk: true,
+                    raffle: true
                 }
             });
             return dbEvents.map(toGqlVkEvent);
@@ -49,6 +50,7 @@ export const resolvers = {
 
 const toGqlVkEvent = (dbEvent: DbEvent): GqlVkEvent => {
     const dbVkEvent: DbVkEvent = (dbEvent as any).vk as DbVkEvent;
+    
     return {
         id: dbEvent.id.toString(),
         name: dbEvent.name,
@@ -58,6 +60,8 @@ const toGqlVkEvent = (dbEvent: DbEvent): GqlVkEvent => {
         cost: dbEvent.cost,
 
         creatorVkId: dbVkEvent.creatorVkId,
-        groupVkId: dbVkEvent.groupVkId
+        groupVkId: dbVkEvent.groupVkId,
+
+        raffleId: (dbEvent as any)?.raffleId
     };
 };
