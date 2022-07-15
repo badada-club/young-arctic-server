@@ -13,6 +13,8 @@ model Event {
     name        String
     date        DateTime
     description String?
+    location    String?
+    cost        String?
 
     vk     VkEvent?
     raffle Raffle?
@@ -31,7 +33,7 @@ model VkEvent {
 
     @@id([id])
     @@index([creatorVkId])
-    @@map("vk_event")
+    @@map("vk_events")
 }
 
 model User {
@@ -40,6 +42,7 @@ model User {
     vk   VkUser[]
 
     @@id([id])
+    @@map("users")
 }
 
 model VkUser {
@@ -51,7 +54,7 @@ model VkUser {
 
     @@id([id])
     @@index([vkId])
-    @@map("vk_user")
+    @@map("vk_users")
 }
 
 model Raffle {
@@ -63,6 +66,7 @@ model Raffle {
 
     @@id([id])
     @@unique([id, eventId])
+    @@map("raffles")
 }
 
 model RaffleUser {
@@ -72,4 +76,5 @@ model RaffleUser {
     key String
 
     @@id([userId, raffleId])
+    @@map("raffle_user")
 }

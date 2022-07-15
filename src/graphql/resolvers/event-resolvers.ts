@@ -21,6 +21,8 @@ export const resolvers = {
                     name: input.name,
                     date: input.date,
                     description: input.description,
+                    location: input.location,
+                    cost: input.cost,
     
                     vk: {
                         create: {
@@ -34,6 +36,9 @@ export const resolvers = {
                     name: true,
                     date: true,
                     description: true,
+                    location: true,
+                    cost: true,
+
                     vk: true
                 }
             });
@@ -49,6 +54,8 @@ const toGqlVkEvent = (dbEvent: DbEvent): GqlVkEvent => {
         name: dbEvent.name,
         date: dbEvent.date,
         description: dbEvent.description,
+        location: dbEvent.location,
+        cost: dbEvent.cost,
 
         creatorVkId: dbVkEvent.creatorVkId,
         groupVkId: dbVkEvent.groupVkId
