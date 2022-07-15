@@ -38,6 +38,8 @@ input VkEventInput {
 
     creatorVkId: String!
     groupVkId: String!
+
+    raffleName: String
 }
 
 type Query {
