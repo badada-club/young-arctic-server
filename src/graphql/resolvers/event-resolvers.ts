@@ -1,3 +1,4 @@
+import { webhook } from '../..';
 import { Event as DbEvent, PrismaClient, VkEvent as DbVkEvent } from '../../prisma/generated';
 import { VkEvent as GqlVkEvent, VkEventInput } from '../generated/generated';
 
@@ -43,6 +44,7 @@ export const resolvers = {
                     vk: true
                 }
             });
+            await webhook.trigger({ id: dbEvent.id });
             return toGqlVkEvent(dbEvent);
         }    
     }

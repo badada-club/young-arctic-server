@@ -78,3 +78,11 @@ model RaffleUser {
     @@id([userId, raffleId])
     @@map("raffle_user")
 }
+
+model WebHookTargets {
+    id  Int    @default(autoincrement())
+    url String
+
+    @@id([id])
+    @@map("webhook_targets")
+}

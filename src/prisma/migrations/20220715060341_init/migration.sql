@@ -55,6 +55,14 @@ CREATE TABLE "raffle_user" (
     CONSTRAINT "raffle_user_pkey" PRIMARY KEY ("user_id","raffle_id")
 );
 
+-- CreateTable
+CREATE TABLE "webhook_targets" (
+    "id" SERIAL NOT NULL,
+    "url" TEXT NOT NULL,
+
+    CONSTRAINT "webhook_targets_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "vk_events_event_id_key" ON "vk_events"("event_id");
 
