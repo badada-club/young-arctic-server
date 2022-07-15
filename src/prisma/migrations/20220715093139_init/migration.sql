@@ -11,6 +11,14 @@ CREATE TABLE "events" (
 );
 
 -- CreateTable
+CREATE TABLE "event_user" (
+    "user_id" INTEGER NOT NULL,
+    "event_id" INTEGER NOT NULL,
+
+    CONSTRAINT "event_user_pkey" PRIMARY KEY ("user_id","event_id")
+);
+
+-- CreateTable
 CREATE TABLE "vk_events" (
     "id" SERIAL NOT NULL,
     "event_id" INTEGER NOT NULL,

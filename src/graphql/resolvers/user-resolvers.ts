@@ -1,5 +1,5 @@
 import { PrismaClient, User as DbUser, VkUser as DbVkUser } from '../../prisma/generated';
-import { VkUser as GqlVkUser, VkUserInput } from '../generated/generated';
+import { TakePartInEvent, TakePartInEventInput, VkUser as GqlVkUser, VkUserInput } from '../generated/generated';
 
 const db = new PrismaClient();
 
@@ -33,7 +33,29 @@ export const resolvers = {
                 }
             });
             return toGqlVkUser(dbEvent);
-        }    
+        },
+        takePartInEvent: async (_: any, { input } : { input: TakePartInEventInput }): Promise<TakePartInEvent> => {
+            const dbEventUser = await db.eventUser.upsert({
+                create: {
+                    userId: input.userId,
+                    eventId: input.eventId
+                },
+                update: {
+                    userId: input.userId,
+                    eventId: input.eventId
+                },
+                where: {
+                    userId_eventId: {
+                        eventId: input.eventId,
+                        userId: input.userId
+                    }
+                }
+            });
+            return {
+                eventId: dbEventUser.eventId,
+                userId: dbEventUser.userId
+            };
+        }       
     }
 };
 
