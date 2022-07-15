@@ -3,6 +3,8 @@ interface IEvent {
     name: String!
     date: Date!
     description: String
+    location: String
+    cost: String
 }
 
 type Event implements IEvent {
@@ -10,6 +12,8 @@ type Event implements IEvent {
     name: String!
     date: Date!
     description: String
+    location: String
+    cost: String
 }
 
 type VkEvent implements IEvent {
@@ -17,6 +21,8 @@ type VkEvent implements IEvent {
     name: String!
     date: Date!
     description: String
+    location: String
+    cost: String
 
     creatorVkId: String!
     groupVkId: String!
@@ -26,6 +32,8 @@ input VkEventInput {
     name: String!
     date: Date!
     description: String
+    location: String
+    cost: String
 
     creatorVkId: String!
     groupVkId: String!
