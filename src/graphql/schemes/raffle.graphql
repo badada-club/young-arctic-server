@@ -7,7 +7,3 @@ type RaffleUserInput {
     userId: ID!
     raffleId: ID!
 }
-
-type Mutation {
-    takePart(userId: Int, raffleId: Int): String
-}

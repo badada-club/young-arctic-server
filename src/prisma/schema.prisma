@@ -23,6 +23,14 @@ model Event {
     @@map("events")
 }
 
+model EventUser {
+    userId  Int @map("user_id")
+    eventId Int @map("event_id")
+
+    @@id([userId, eventId])
+    @@map("event_user")
+}
+
 model VkEvent {
     id          Int    @default(autoincrement())
     eventId     Int    @unique @map("event_id")

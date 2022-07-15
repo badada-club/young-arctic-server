@@ -1,0 +1,13 @@
+type TakePartInEvent {
+    eventId: Int!
+    userId: Int!
+}
+
+input TakePartInEventInput {
+    eventId: Int!
+    userId: Int!
+}
+
+type Mutation {
+    takePartInEvent(input: TakePartInEventInput): TakePartInEvent
+}

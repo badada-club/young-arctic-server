@@ -1,0 +1,14 @@
+type TakePartInRaffle {
+    userId: Int!
+    raffleId: Int!
+    key: String!
+}
+
+input TakePartInRaffleInput {
+    userId: Int!
+    raffleId: Int!
+}
+
+type Mutation {
+    takePartInRaffle(input: TakePartInRaffleInput): TakePartInRaffle
+}
