@@ -1,0 +1,39 @@
+interface IEvent {
+    id: ID!
+    name: String!
+    date: Date!
+    description: String
+}
+
+type Event implements IEvent {
+    id: ID!
+    name: String!
+    date: Date!
+    description: String
+}
+
+type VkEvent implements IEvent {
+    id: ID!
+    name: String!
+    date: Date!
+    description: String
+
+    creatorVkId: String!
+    groupVkId: String!
+}
+
+input VkEventInput {
+    name: String!
+    date: Date!
+    description: String
+
+    creatorVkId: String!
+    groupVkId: String!
+}
+
+type Query {
+    getVkEvents: [VkEvent]!
+}
+type Mutation {
+    createVkEvent(input: VkEventInput): VkEvent
+}

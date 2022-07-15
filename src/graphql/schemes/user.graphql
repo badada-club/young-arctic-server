@@ -1,0 +1,29 @@
+interface IUser {
+    id: ID!
+    name: String!
+}
+
+type User implements IUser {
+    id: ID!
+    name: String!
+}
+
+type VkUser implements IUser {
+    id: ID!
+    name: String!
+
+    vkId: String!
+}
+
+type VkUserInput {
+    name: String!
+
+    vkId: String!
+}
+
+type Query {
+    getVkUsers: [VkUser]!
+}
+type Mutation {
+    createVkUser(input: VkEventInput): VkUser
+}
