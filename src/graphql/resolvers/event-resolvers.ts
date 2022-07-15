@@ -1,8 +1,21 @@
 import { webhook } from '../..';
-import { Event as DbEvent, PrismaClient, VkEvent as DbVkEvent } from '../../prisma/generated';
+import { Event as DbEvent, PrismaClient, Raffle as DbRaffle, VkEvent as DbVkEvent } from '../../prisma/generated';
 import { VkEvent as GqlVkEvent, VkEventInput } from '../generated/generated';
 
 const db = new PrismaClient();
+// const db = new PrismaClient({
+//     log: [{
+//         emit: 'event',
+//         level: 'query',
+//     }],
+// });
+
+// db.$on('query', (e: any) => {
+//     console.log(`
+// executed query: ${e.query}
+// with parameters: ${e.params}
+//     `);
+// });
 
 export const resolvers = {
     Query: {
@@ -18,21 +31,29 @@ export const resolvers = {
     },
     Mutation: {
         createVkEvent: async (_: any, { input }: { input: VkEventInput }): Promise<GqlVkEvent> => {
-            const dbEvent = await db.event.create({
-                data: {
-                    name: input.name,
-                    date: input.date,
-                    description: input.description,
-                    location: input.location,
-                    cost: input.cost,
-    
-                    vk: {
-                        create: {
-                            creatorVkId: input.creatorVkId,
-                            groupVkId: input.groupVkId
-                        }
+            const data = {
+                name: input.name,
+                date: input.date,
+                description: input.description,
+                location: input.location,
+                cost: input.cost,
+
+                vk: {
+                    create: {
+                        creatorVkId: input.creatorVkId,
+                        groupVkId: input.groupVkId
                     }
-                },
+                }
+            };
+            if(input.raffleName) {
+                (data as any).raffle = {
+                    create: {
+                        name: input.raffleName as string
+                    }
+                };
+            }
+            const dbEvent = await db.event.create({
+                data: data,
                 select: {
                     id: true,
                     name: true,
@@ -41,9 +62,11 @@ export const resolvers = {
                     location: true,
                     cost: true,
 
-                    vk: true
+                    vk: true,
+                    raffle: true
                 }
             });
+
             await webhook.trigger({ id: dbEvent.id });
             return toGqlVkEvent(dbEvent);
         }    
@@ -52,6 +75,7 @@ export const resolvers = {
 
 const toGqlVkEvent = (dbEvent: DbEvent): GqlVkEvent => {
     const dbVkEvent: DbVkEvent = (dbEvent as any).vk as DbVkEvent;
+    const dbRaffle: DbRaffle = (dbEvent as any).raffle as DbRaffle;
     
     return {
         id: dbEvent.id.toString(),
@@ -64,6 +88,6 @@ const toGqlVkEvent = (dbEvent: DbEvent): GqlVkEvent => {
         creatorVkId: dbVkEvent.creatorVkId,
         groupVkId: dbVkEvent.groupVkId,
 
-        raffleId: (dbEvent as any)?.raffleId
+        raffleId: dbRaffle?.id
     };
 };
