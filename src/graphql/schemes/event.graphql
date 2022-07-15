@@ -26,6 +26,7 @@ type VkEvent implements IEvent {
 
     creatorVkId: String!
     groupVkId: String!
+    raffleId: Int
 }
 
 input VkEventInput {

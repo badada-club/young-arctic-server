@@ -8,14 +8,6 @@ type RaffleUserInput {
     raffleId: ID!
 }
 
-type IsRaffle {
-    raffle: Boolean!
-    raffleId: Int
-}
-
-type Query {
-    getRaffleId(eventId: Int): IsRaffle
-}
 type Mutation {
     takePart(userId: Int, raffleId: Int): String
 }
